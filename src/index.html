@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    Code: <input type="text" id="code" /><br />
+    Name: <input type="text" id="name" /><br />
+
+    <button onclick="create()">Create</button><br />
+    <button onclick="join()">Join</button><br />
+    <button onclick="start()">Start</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      socket.on("connect", () => {
+        console.log("Connected");
+      });
+
+      socket.on("disconnect", () => {
+        console.log("Disconnected");
+      });
+
+      socket.on("stepStarted", (state) => {
+        console.log(state);
+      });
+      socket.on("stepEnded", (state) => {
+        console.log(state);
+      });
+      socket.on("playerJoined", (name, state) => {
+        console.log(name, state);
+      });
+      socket.on("playerLeft", (name, state) => {
+        console.log(name, state);
+      });
+
+      function create() {
+        socket.emit(
+          "createRoom",
+          document.getElementById("name").value,
+          ({ success, reason, data }) => {
+            console.log(success, reason, data);
+          }
+        );
+      }
+
+      function join() {
+        socket.emit(
+          "joinRoom",
+          document.getElementById("code").value,
+          document.getElementById("name").value,
+          ({ success, reason, data }) => {
+            console.log(success, reason, data);
+          }
+        );
+      }
+
+      function start() {
+        socket.emit("startGame");
+      }
+    </script>
+  </body>
+</html>

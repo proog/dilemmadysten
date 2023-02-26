@@ -4,7 +4,8 @@ import { Question, QuestionStep } from "./QuestionStep";
 
 const chance = new Chance();
 
-interface GameState {
+export interface GameState {
+  code: string;
   scores: { player: string; score: number }[];
   progress: { current: number; total: number };
   currentStep: { options: string[]; answered: string[] } | undefined;
@@ -62,6 +63,10 @@ export class GameSession {
   }
 
   start(questions: Question[]) {
+    if (this.currentStep) {
+      throw new Error("Game has already started");
+    }
+
     const shuffledPlayers = chance.shuffle(this.players);
 
     this.steps = chance
@@ -91,6 +96,7 @@ export class GameSession {
 
   get state(): GameState {
     return {
+      code: this.code,
       scores: [...this.scores].map(([player, score]) => ({
         player: player.name,
         score: score,
