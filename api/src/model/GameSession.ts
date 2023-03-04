@@ -1,15 +1,9 @@
 import { Chance } from "chance";
+import { GameState } from "../../../common/GameState";
 import { Player } from "./Player";
 import { Question, QuestionStep } from "./QuestionStep";
 
 const chance = new Chance();
-
-export interface GameState {
-  code: string;
-  scores: { player: string; score: number }[];
-  progress: { current: number; total: number };
-  currentStep: { options: string[]; answered: string[] } | undefined;
-}
 
 export class GameSession {
   readonly players: Player[] = [];

@@ -1,42 +1,15 @@
 import { Chance } from "chance";
 import http from "http";
 import { Server } from "socket.io";
-import { GameSession, GameState } from "./model/GameSession";
+import {
+  ClientToServerEvents,
+  ServerToClientEvents,
+} from "../../common/socket-events";
+import { GameSession } from "./model/GameSession";
 import { Player } from "./model/Player";
 import { Question } from "./model/QuestionStep";
 
 const chance = new Chance();
-
-interface Status {
-  success: boolean;
-  reason?: string;
-}
-
-interface StatusWithValue<T> extends Status {
-  data?: T;
-}
-
-type statusCallback = (status: Status) => void;
-type valueCallback<T> = (status: StatusWithValue<T>) => void;
-
-interface ServerToClientEvents {
-  stepStarted: (state: GameState) => void;
-  stepEnded: (state: GameState) => void;
-  playerJoined: (name: string, state: GameState) => void;
-  playerLeft: (name: string, state: GameState) => void;
-  gameEnded: () => void;
-}
-
-interface ClientToServerEvents {
-  joinRoom: (
-    roomCode: string,
-    playerName: string,
-    callback: statusCallback
-  ) => void;
-  createRoom: (playerName: string, callback: valueCallback<GameState>) => void;
-  startGame: () => void;
-  submitAnswer: (answer: string) => void;
-}
 
 interface ServerInternalEvents {}
 
@@ -53,7 +26,11 @@ export function registerServer(server: http.Server) {
     ServerToClientEvents,
     ServerInternalEvents,
     SocketData
-  >(server);
+  >(server, {
+    cors: {
+      origin: "http://localhost:5173",
+    },
+  });
 
   io.on("connection", (socket) => {
     console.log("a user connected");
