@@ -49,6 +49,48 @@ body {
   grid-row-gap: 100px;
 }
 
+.fade-in-container{
+  animation: fadeInAnimation ease 1s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+        @keyframes fadeInAnimation {
+          0% {opacity: 0;}
+          100% {opacity: 1;}
+}
+
+.fade-in-dilemma01{
+  animation: fadeInAnimation ease 1.5s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+        @keyframes fadeInAnimation {
+          0% {opacity: 0;}
+          100% {opacity: 1;}
+}
+
+.fade-in-dilemma02{
+  animation: fadeInAnimation ease 2s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+        @keyframes fadeInAnimation {
+            0% {opacity: 0;}
+            15% {opacity: 0;}
+            100% {opacity: 1;}
+}
+
+.fade-in-dilemma03{
+  animation: fadeInAnimation ease 2.5s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+        @keyframes fadeInAnimation {
+            0% {opacity: 0;}
+            30% {opacity: 0;}
+            100% {opacity: 1;}
+}
+
 .timer {
   min-height: 60px;
   min-width: 60px;
