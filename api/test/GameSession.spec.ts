@@ -13,7 +13,7 @@ const questions: Question[] = chance.n(
       { text: chance.sentence() },
     ],
   }),
-  100
+  10
 );
 
 const hostPlayer = new Player("Johnny", true);
@@ -51,12 +51,19 @@ it("should advance through question steps", () => {
       expect(game.canAdvance).toBe(false);
 
       const answer = chance.pickone(game.currentStep!.question.options);
-      game.currentStep?.addAnswer(player, answer);
+      game.addAnswer(player, answer);
     }
 
+    expect(game.currentStep?.state).toBe("question");
+    expect(game.canAdvance).toBe(true);
+    game.advance();
+
+    expect(game.currentStep?.state).toBe("scores");
     expect(game.canAdvance).toBe(true);
     game.advance();
   }
+
+  expect(game.currentStep).toBeUndefined();
 });
 
 it("should update scores after each question step", () => {

@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { isHost } from "@/game";
+import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import { socketClient } from "../sockets";
 
 const router = useRouter();
-const playerName = ref("");
+const form = reactive({ playerName: "" });
 
 async function submit() {
-  const data = await socketClient.create(playerName.value);
-  router.push({ name: "lobby", params: { code: data.code } });
+  const data = await socketClient.create(form.playerName);
+  isHost.value = true;
+  router.push({ name: "room", params: { roomCode: data.code } });
 }
 </script>
 
@@ -21,7 +23,7 @@ async function submit() {
       class="field-text w-input"
       maxlength="256"
       required
-      v-model="playerName"
+      v-model="form.playerName"
     />
     <input
       type="submit"
@@ -30,10 +32,4 @@ async function submit() {
       class="button-accept w-button"
     />
   </form>
-  <div class="w-form-done">
-    <div>Thank you! Your submission has been received!</div>
-  </div>
-  <div class="w-form-fail">
-    <div>Oops! Something went wrong while submitting the form.</div>
-  </div>
 </template>

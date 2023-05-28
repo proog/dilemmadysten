@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import GameView from "../views/GameView.vue";
 import HomeView from "../views/HomeView.vue";
 import HostView from "../views/HostView.vue";
 import JoinView from "../views/JoinView.vue";
@@ -31,6 +32,12 @@ const router = createRouter({
           component: HostView,
         },
       ],
+    },
+    {
+      path: "/room/:roomCode",
+      name: "room",
+      component: GameView,
+      props: true,
     },
   ],
 });

@@ -1,22 +1,37 @@
+<script setup lang="ts">
+import { computed } from "vue";
+import type { GameState } from "../../../common/GameState";
+
+const props = defineProps<{ gameState: GameState; isHost: boolean }>();
+defineEmits<{ (e: "continue"): void }>();
+
+const scores = computed(() =>
+  props.gameState.currentStep?.kind === "scores"
+    ? props.gameState.currentStep.scores
+    : []
+);
+</script>
+
 <template>
-  <div class="container-2 w-container">
-    <div class="timer">60</div>
-    <a href="#" class="button-menu w-button">Menu ikon</a>
-  </div>
   <div class="container w-container">
     <div class="player-score wf-section">
-      <div class="player-score01">+0</div>
-      <div class="player-score01">+0</div>
-      <div class="player-score01">+0</div>
-      <div class="player-score01">+0</div>
-      <div class="player-score01">+0</div>
+      <div v-for="score in scores" :key="score.player" class="player-score01">
+        +{{ score.score }}
+      </div>
     </div>
     <div class="player-lineup wf-section">
-      <div class="player-icon01">H</div>
-      <div class="player-icon02">L</div>
-      <div class="player-icon03">P</div>
-      <div class="player-icon04">K</div>
-      <div class="player-icon05">A</div>
+      <div v-for="score in scores" :key="score.player" class="player-icon01">
+        {{ score.player }}
+      </div>
     </div>
+
+    <button
+      v-if="isHost"
+      type="button"
+      class="button-accept w-button"
+      @click="$emit('continue')"
+    >
+      Fortsæt
+    </button>
   </div>
 </template>

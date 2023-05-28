@@ -1,7 +1,7 @@
 import { Chance } from "chance";
-import { GameState } from "../../../common/GameState";
+import { GameState, GameStateStep } from "../../../common/GameState";
 import { Player } from "./Player";
-import { Question, QuestionStep } from "./QuestionStep";
+import { AnswerOption, Question, QuestionStep } from "./QuestionStep";
 
 const chance = new Chance();
 
@@ -73,9 +73,22 @@ export class GameSession {
     this.currentStepIndex++;
   }
 
+  addAnswer(player: Player, option: AnswerOption) {
+    if (!this.currentStep) {
+      throw new Error("Cannot add answer at this point");
+    }
+
+    this.currentStep?.addAnswer(player, option);
+  }
+
   advance() {
     if (!this.canAdvance || !this.currentStep) {
       throw new Error("Cannot advance at this point");
+    }
+
+    if (this.currentStep.state === "scores") {
+      this.currentStepIndex++;
+      return;
     }
 
     this.currentStep.calculateScores();
@@ -84,31 +97,63 @@ export class GameSession {
       const playerScore = this.scores.get(player) || 0;
       this.scores.set(player, playerScore + stepScore);
     }
-
-    this.currentStepIndex++;
   }
 
   get state(): GameState {
     return {
       code: this.code,
-      scores: [...this.scores].map(([player, score]) => ({
-        player: player.name,
+      players: [...this.scores].map(([player, score]) => ({
+        name: player.name,
+        isHost: player.isHost,
         score: score,
       })),
       progress: {
         current: this.currentStepIndex,
         total: this.steps.length,
       },
-      currentStep: !this.currentStep
-        ? undefined
-        : {
-            options: this.currentStep.question.options.map(
-              (option) => option.text
-            ),
-            answered: [...this.currentStep.answers.keys()].map(
-              (player) => player.name
-            ),
-          },
+      currentStep: this.getCurrentStepState(),
     };
+  }
+
+  private getCurrentStepState(): GameStateStep | undefined {
+    if (this.isFinished) {
+      return { kind: "finished", winners: this.getWinners() };
+    }
+
+    if (this.currentStep?.state === "question") {
+      return {
+        kind: "question",
+        subject: this.currentStep.subject.name,
+        options: this.currentStep.question.options.map((option) => option.text),
+        answered: [...this.currentStep.answers.keys()].map(
+          (player) => player.name
+        ),
+      };
+    }
+
+    if (this.currentStep?.state === "scores") {
+      return {
+        kind: "scores",
+        scores: [...this.currentStep.scores].map(([player, score]) => ({
+          player: player.name,
+          score,
+        })),
+      };
+    }
+
+    return undefined;
+  }
+
+  private getWinners(): string[] {
+    const maxScore = Math.max(...this.scores.values());
+    const winners: Player[] = [];
+
+    for (const [player, score] of this.scores) {
+      if (score === maxScore) {
+        winners.push(player);
+      }
+    }
+
+    return winners.map((winner) => winner.name);
   }
 }

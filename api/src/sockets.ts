@@ -7,7 +7,6 @@ import {
 } from "../../common/socket-events";
 import { GameSession } from "./model/GameSession";
 import { Player } from "./model/Player";
-import { Question } from "./model/QuestionStep";
 import { questions } from "./questions";
 
 const chance = new Chance();
@@ -95,24 +94,68 @@ export function registerServer(server: http.Server) {
       socket.data.playerName = playerName;
 
       console.log(`Player ${playerName} joined room ${roomCode}`);
-      callback({ success: true });
+      socket.to(roomCode).emit("playerJoined", playerName, game.state);
+      callback({ success: true, data: game.state });
     });
 
-    socket.on("startGame", () => {
+    socket.on("startGame", (callback) => {
       const roomCode = socket.data.roomCode || "";
       const game = games.get(roomCode);
 
       if (!game) {
+        callback({ success: false, reason: `Game ${roomCode} does not exist` });
         return;
       }
 
       if (socket.data.playerName !== game.host.name) {
+        callback({ success: false, reason: "You are not the host" });
         return;
       }
 
       game.start(chance.pickset(questions, 10));
 
       socket.to(roomCode).emit("stepStarted", game.state);
+      callback({ success: true, data: game.state });
+    });
+
+    socket.on("submitAnswer", (answer, callback) => {
+      const roomCode = socket.data.roomCode || "";
+      const game = games.get(roomCode);
+
+      if (!game?.currentStep) {
+        callback({ success: false, reason: "No current step" });
+        return;
+      }
+
+      const player = game.players.find(
+        (p) => p.name === socket.data.playerName
+      );
+      const option = game.currentStep.question.options.find(
+        (o) => o.text === answer
+      );
+      game.addAnswer(player!, option!);
+
+      if (game.canAdvance) {
+        game.advance();
+        socket.to(roomCode).emit("stepEnded", game.state);
+      }
+
+      callback({ success: true, data: game.state });
+    });
+
+    socket.on("endStep", (callback) => {
+      const roomCode = socket.data.roomCode || "";
+      const game = games.get(roomCode);
+
+      if (!game?.canAdvance) {
+        callback({ success: false, reason: "No current step" });
+        return;
+      }
+
+      game.advance();
+
+      socket.to(roomCode).emit("stepEnded", game.state);
+      callback({ success: true, data: game.state });
     });
   });
 

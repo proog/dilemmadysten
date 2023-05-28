@@ -5,6 +5,7 @@ import type {
   ServerToClientEvents,
   ValueStatus,
 } from "../../common/socket-events";
+import { gameState } from "./game";
 
 type GameSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
 
@@ -18,18 +19,10 @@ export class SocketClient {
       console.log("Disconnected");
     });
 
-    socket.on("stepStarted", (state) => {
-      console.log(state);
-    });
-    socket.on("stepEnded", (state) => {
-      console.log(state);
-    });
-    socket.on("playerJoined", (name, state) => {
-      console.log(name, state);
-    });
-    socket.on("playerLeft", (name, state) => {
-      console.log(name, state);
-    });
+    socket.on("stepStarted", updateGameState);
+    socket.on("stepEnded", updateGameState);
+    socket.on("playerJoined", (name, state) => updateGameState(state));
+    socket.on("playerLeft", (name, state) => updateGameState(state));
   }
 
   connect() {
@@ -38,31 +31,64 @@ export class SocketClient {
 
   create(playerName: string) {
     return new Promise<GameState>((resolve, reject) => {
-      this.socket.emit("createRoom", playerName, handleStatus(resolve, reject));
+      this.socket.emit(
+        "createRoom",
+        playerName,
+        handleGameState(resolve, reject)
+      );
     });
   }
 
   join(code: string, playerName: string) {
-    return new Promise<void>((resolve, reject) => {
-      this.socket.emit("joinRoom", code, playerName, (status) => {
-        if (!status.success) reject(status.reason);
-        else resolve();
-      });
+    return new Promise<GameState>((resolve, reject) => {
+      this.socket.emit(
+        "joinRoom",
+        code,
+        playerName,
+        handleGameState(resolve, reject)
+      );
     });
   }
 
   start() {
-    this.socket.emit("startGame");
+    return new Promise<GameState>((resolve, reject) => {
+      this.socket.emit("startGame", handleGameState(resolve, reject));
+    });
+  }
+
+  submitAnswer(answer: string) {
+    return new Promise<GameState>((resolve, reject) => {
+      this.socket.emit(
+        "submitAnswer",
+        answer,
+        handleGameState(resolve, reject)
+      );
+    });
+  }
+
+  endStep() {
+    return new Promise<GameState>((resolve, reject) => {
+      this.socket.emit("endStep", handleGameState(resolve, reject));
+    });
   }
 }
 
-function handleStatus<T>(
-  resolve: (value: T | PromiseLike<T>) => void,
+function updateGameState(state: GameState) {
+  gameState.value = state;
+}
+
+function handleGameState(
+  resolve: (value: GameState | PromiseLike<GameState>) => void,
   reject: (reason?: any) => void
 ) {
-  return (status: ValueStatus<T>) => {
-    if (!status.success) reject(status.reason);
-    else resolve(status.data);
+  return (status: ValueStatus<GameState>) => {
+    if (!status.success) {
+      reject(status.reason);
+      return;
+    }
+
+    updateGameState(status.data);
+    resolve(status.data);
   };
 }
 

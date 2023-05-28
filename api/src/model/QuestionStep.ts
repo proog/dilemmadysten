@@ -8,7 +8,11 @@ export interface Question {
   options: AnswerOption[];
 }
 
+export type StepState = "question" | "scores";
+
 export class QuestionStep {
+  state: StepState = "question";
+
   readonly answers = new Map<Player, AnswerOption>();
   readonly scores = new Map<Player, number>();
 
@@ -42,5 +46,6 @@ export class QuestionStep {
     }
 
     this.scores.set(this.subject, subjectScore);
+    this.state = "scores";
   }
 }

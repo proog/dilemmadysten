@@ -20,9 +20,10 @@ export interface ClientToServerEvents {
   joinRoom: (
     roomCode: string,
     playerName: string,
-    callback: statusCallback
+    callback: valueCallback<GameState>
   ) => void;
   createRoom: (playerName: string, callback: valueCallback<GameState>) => void;
-  startGame: () => void;
-  submitAnswer: (answer: string) => void;
+  startGame: (callback: valueCallback<GameState>) => void;
+  submitAnswer: (answer: string, callback: valueCallback<GameState>) => void;
+  endStep: (callback: valueCallback<GameState>) => void;
 }
