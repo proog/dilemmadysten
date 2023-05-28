@@ -8,6 +8,7 @@ import {
 import { GameSession } from "./model/GameSession";
 import { Player } from "./model/Player";
 import { Question } from "./model/QuestionStep";
+import { questions } from "./questions";
 
 const chance = new Chance();
 
@@ -109,17 +110,7 @@ export function registerServer(server: http.Server) {
         return;
       }
 
-      const questions: Question[] = chance.n(
-        () => ({
-          options: [
-            { text: chance.sentence() },
-            { text: chance.sentence() },
-            { text: chance.sentence() },
-          ],
-        }),
-        30
-      );
-      game.start(questions);
+      game.start(chance.pickset(questions, 10));
 
       socket.to(roomCode).emit("stepStarted", game.state);
     });
