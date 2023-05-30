@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "start": "node dist/api/src/main.js",
     "test": "vitest",
     "build": "tsc",
     "dev": "nodemon src/main.ts"
