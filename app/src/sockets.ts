@@ -93,9 +93,7 @@ function handleGameState(
 }
 
 export function createClient() {
-  const socket: GameSocket = io(
-    import.meta.env.VITE_WS_URL || "ws://localhost:3000"
-  );
+  const socket: GameSocket = io();
 
   return new SocketClient(socket);
 }

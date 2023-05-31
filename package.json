@@ -11,6 +11,7 @@
     "build:app": "npm run build --workspace=app",
     "dev:api": "npm run dev --workspace=api",
     "dev:app": "npm run dev --workspace=app",
+    "start": "npm run start:api",
     "build": "run-s -l build:*",
     "dev": "run-p -l dev:*",
     "test": "npm run test --workspaces --if-present"

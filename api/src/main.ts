@@ -1,3 +1,6 @@
+import express from "express";
+import { createServer } from "http";
+import path from "path";
 import { Server } from "socket.io";
 import {
   ClientToServerEvents,
@@ -9,16 +12,16 @@ import {
   registerSocketEvents,
 } from "./sockets";
 
+const app = express();
+app.use(express.static(path.join(__dirname, "public")));
+
+const httpServer = createServer(app);
 const io = new Server<
   ClientToServerEvents,
   ServerToClientEvents,
   ServerInternalEvents,
   SocketData
->({
-  cors: {
-    origin: process.env.ALLOWED_ORIGIN || "http://localhost:5173",
-  },
-});
+>(httpServer);
 
 io.on("connection", (socket) => {
   console.log("a user connected");
@@ -26,6 +29,6 @@ io.on("connection", (socket) => {
 });
 
 const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
-
-console.log(`Listening on port ${port}`);
-io.listen(port);
+httpServer.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
