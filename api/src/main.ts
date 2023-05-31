@@ -13,7 +13,12 @@ import {
 } from "./sockets";
 
 const app = express();
-app.use(express.static(path.join(__dirname, "public")));
+
+const staticRoot = path.join(__dirname, "public");
+app.use(express.static(staticRoot));
+app.get("*", (_req, res) => {
+  res.sendFile(path.join(staticRoot, "index.html"));
+});
 
 const httpServer = createServer(app);
 const io = new Server<
