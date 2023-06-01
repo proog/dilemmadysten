@@ -1,8 +1,10 @@
 export interface GameStateQuestion {
   kind: "question";
   subject: string;
-  options: string[];
-  answered: string[];
+  options: {
+    text: string;
+    players: string[];
+  }[];
 }
 
 export interface GameStateScores {

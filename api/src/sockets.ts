@@ -122,7 +122,13 @@ export function registerSocketEvents(
     const option = game.currentStep.question.options.find(
       (o) => o.text === answer
     );
-    game.addAnswer(player!, option!);
+
+    if (!player || !option) {
+      callback({ success: false, reason: "Player or option invalid" });
+      return;
+    }
+
+    game.addAnswer(player, option);
 
     if (game.canAdvance) {
       game.advance();

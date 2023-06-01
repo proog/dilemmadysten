@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isHost } from "@/game";
+import { isHost, playerName } from "@/game";
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import { socketClient } from "../sockets";
@@ -13,6 +13,7 @@ const form = reactive({
 async function submit() {
   const data = await socketClient.join(form.roomCode, form.playerName);
   isHost.value = false;
+  playerName.value = form.playerName;
   router.push({ name: "room", params: { roomCode: data.code } });
 }
 </script>

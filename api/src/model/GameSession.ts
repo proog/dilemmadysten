@@ -133,13 +133,19 @@ export class GameSession {
     }
 
     if (this.currentStep?.state === "question") {
+      const currentStep = this.currentStep;
       return {
         kind: "question",
-        subject: this.currentStep.subject.name,
-        options: this.currentStep.question.options.map((option) => option.text),
-        answered: [...this.currentStep.answers.keys()].map(
-          (player) => player.name
-        ),
+        subject: currentStep.subject.name,
+        options: currentStep.question.options.map((option) => ({
+          text: option.text,
+          players: [...currentStep.answers]
+            .filter(
+              ([player, selected]) =>
+                selected === option && player !== currentStep.subject
+            )
+            .map(([player]) => player.name),
+        })),
       };
     }
 

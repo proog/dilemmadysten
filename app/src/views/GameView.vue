@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { gameState, isHost } from "@/game";
+import { gameState, isHost, playerName } from "@/game";
 import { socketClient } from "@/sockets";
 import EndView from "./EndView.vue";
 import LobbyView from "./LobbyView.vue";
@@ -31,6 +31,7 @@ async function endStep() {
     <QuestionView
       v-if="gameState.currentStep?.kind === 'question'"
       :game-state="gameState"
+      :player-name="playerName"
       @answer="submitAnswer"
     />
     <QuestionScoreView
