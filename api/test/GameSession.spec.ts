@@ -43,6 +43,15 @@ it("should alternate between players", () => {
   }
 });
 
+it("should make each player the subject of 3 steps", () => {
+  game.start(questions);
+
+  for (const player of players) {
+    const stepsForPlayer = game.steps.filter((step) => step.subject === player);
+    expect(stepsForPlayer.length).toBe(3);
+  }
+});
+
 it("should advance through question steps", () => {
   game.start(questions);
 

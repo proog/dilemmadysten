@@ -56,15 +56,27 @@ export class GameSession {
     }
   }
 
-  start(questions: Question[]) {
+  start(questionPool: Question[]) {
     if (this.currentStep) {
       throw new Error("Game has already started");
+    }
+
+    if (this.players.length < 2) {
+      throw new Error("Need at least 2 players to start game");
+    }
+
+    const questionsNeeded = this.players.length * 3;
+
+    if (questionPool.length < questionsNeeded) {
+      throw new Error(
+        `Need at least ${questionsNeeded} questions to start game`
+      );
     }
 
     const shuffledPlayers = chance.shuffle(this.players);
 
     this.steps = chance
-      .pickset(questions, this.players.length * 3)
+      .pickset(questionPool, questionsNeeded)
       .map((question, index) => {
         const player = shuffledPlayers[index % shuffledPlayers.length];
         return new QuestionStep(player, question);

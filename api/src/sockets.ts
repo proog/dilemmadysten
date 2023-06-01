@@ -103,7 +103,7 @@ export function registerSocketEvents(
       return;
     }
 
-    game.start(chance.pickset(questions, 10));
+    game.start(questions);
 
     socket.to(roomCode).emit("stepStarted", game.state);
     callback({ success: true, data: game.state });

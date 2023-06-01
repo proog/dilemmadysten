@@ -24,11 +24,14 @@ defineEmits<{ (e: "startGame"): void }>();
     <button
       type="button"
       class="button-accept w-button"
-      v-if="isHost"
+      v-if="isHost && gameState.players.length > 1"
       @click="$emit('startGame')"
     >
       Start dyst
     </button>
+    <div v-else-if="isHost" class="players-title">
+      Venter på flere spillere...
+    </div>
     <div class="players-title" v-else>Venter på at spillet starter...</div>
   </div>
 </template>
