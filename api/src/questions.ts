@@ -556,9 +556,100 @@ export const questions: Question[] = [
   },
   {
     options: [
+      { text: "Lommer i tøj stopper med at eksistere." },
+      { text: "Farven rød stopper med at eksistere." },
+      { text: "Brystvorter stopper med at eksistere." },
+    ],
+  },
+  {
+    options: [
+      { text: "Du gør det ulovligt at spise animalske produkter." },
+      { text: "Du gør det ulovligt at bevæge sig hurtigere end 50 km/t." },
+      { text: "Du gør mobiltelefoner ulovlige." },
+    ],
+  },
+  {
+    options: [
+      { text: "Efter man er fyldt 10 ændres ens udseende ikke længere." },
+      { text: "Kun film og musik, der blev udgivet i år 2000 eksisterer og intet nyt produceres. " },
+      { text: "Cykler stopper med at eksistere." },
+    ],
+  },
+  {
+    options: [
+      { text: "Der findes ingen bopæle, kun gratis, offentligt tilgængelige senge, toiletter, køkkener etc." },
+      { text: "Du tildeles en ny familie 1. januar hvert år og den gamle glemmes." },
+      { text: "Som den eneste sendes du 100 år frem i tiden og skal leve resten af dit liv der fra." },
+    ],
+  },
+  {
+    options: [
+      { text: "Medicinalindustrien sættes 20 år tilbage." },
+      { text: "Udviklingen indenfor bæredygtig teknologi sættes 30 år tilbage." },
+      { text: "Ligestillingen sættes 50 år tilbage." },
+    ],
+  },
+  {
+    options: [
+      { text: "Marabou laver en streaming-tjeneste." },
+      { text: "Facebook laver en vodka." },
+      { text: "H&M laver kondomer." },
+    ],
+  },
+  {
+    options: [
+      { text: "Citroën får ansvaret for public service indenfor radio og tv." },
+      { text: "Folketinget sponsorerer Lakrids by Bülow." },
+      { text: "Dronningen udgiver egne cigaretter." },
+    ],
+  },
+  {
+    options: [
+      { text: "Der findes kun røde vingummier." },
+      { text: "Der findes kun gule vingummier." },
+      { text: "Der findes kun grønne vingummier." },
+    ],
+  },
+  {
+    options: [
+      { text: "Vejrets temperatur vil altid være -10*C." },
+      { text: "Vejrets temperatur vil altid være 35*C." },
+      { text: "Temperaturen skifter mellem -10*C og 35*C hver fjerde time." },
+    ],
+  },
+  {
+    options: [
+      { text: "Du bliver en semi-succesfuld guitarspiller." },
+      { text: "Du bliver en semi-succesfuld kunstmaler." },
+      { text: "Du bliver en semi-succesfuld sportsudøver." },
+    ],
+  },
+  {
+    options: [
+      { text: "Bornholm overtages af Sverige." },
+      { text: "Der er ikke lås på offentlige toiletter." },
+      { text: "De sidste 20 sider mangler i alle bøger og lydbøger for altid." },
+    ],
+  },
+  {
+    options: [
+      { text: "Donald Trump får yderligere fire år i Det Hvide Hus." },
+      { text: "Du skal én gang optræde som komiker foran et publikum på 200 mennesker." },
+      { text: "Det næste år må du ikke bruge nogen form for vækkeur." },
+    ],
+  },
+  {
+    options: [
+      { text: "Mænd får bryster som kvinder." },
+      { text: "Kvinder får fuldskæg." },
+      { text: "Alle bliver blinde efter de er fyldt 75 år." },
+    ],
+  },
+  {
+    options: [
       { text: "Ingen kan lide lyden af dit grin." },
+      { text: "Ingen vil se film og tv i selskab med dig." },
       { text: "Alle vil forvente du giver dem gaver på deres fødsesldag, men alle vil blive sure over, hvad du giver dem." },
-      { text: "XXXX" },
     ],
   },
 
