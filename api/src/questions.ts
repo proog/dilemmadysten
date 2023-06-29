@@ -215,7 +215,7 @@ export const questions: Question[] = [
     options: [
       { text: "Det er ikke længere muligt for nogen at optage video eller tage billeder." },
       { text: "Du må udelukkende gå i tøj der er mindst 2 numre for småt." },
-      { text: "Én gang hver 6. måned skal du gå nøgen igennem et fyldtshoppingcenter." },
+      { text: "Én gang hver 6. måned skal du gå nøgen igennem et fyldt shoppingcenter." },
     ],
   },
   {
@@ -250,12 +250,12 @@ export const questions: Question[] = [
     options: [
       { text: "Du skider ren rav (og det gør ikke ondt at skide)." },
       { text: "Dine hænder lyser som lommelygter, når du gnider dem sammen." },
-      { text: "Du kan spille alle instrumenter på et niveau, der svarer til at du har øvet dig ét år." },
+      { text: "Du kan spille alle instrumenter på et niveau, der svarer til at du har øvet dig i ét år." },
     ],
   },
   {
     options: [
-      { text: "Så længe du spænder dine biceps, tror folk på alt hvad du siger." },
+      { text: "Så længe du spænder dine biceps, tror folk på alt, hvad du siger." },
       { text: "Du kan gøre dig usynlig, men kun så længe du har lukkede øjne." },
       { text: "Du kan tankelæse, de næste fem minutter efter du har kastet op." },
     ],
@@ -528,7 +528,7 @@ export const questions: Question[] = [
   },
   {
     options: [
-      { text: "Danmark bliver en del af Polen." },
+      { text: "Danmark bliver en del af Panama." },
       { text: "Danmark bliver en del af Pakistan." },
       { text: "Danmark bliver en del af Peru." },
     ],
@@ -650,6 +650,41 @@ export const questions: Question[] = [
       { text: "Ingen kan lide lyden af dit grin." },
       { text: "Ingen vil se film og tv i selskab med dig." },
       { text: "Alle vil forvente du giver dem gaver på deres fødsesldag, men alle vil blive sure over, hvad du giver dem." },
+    ],
+  },
+  {
+    options: [
+      { text: "Alle trapper erstattes af reb til at klatre op eller ned ad." },
+      { text: "Erektioner er ikke længere lydløse, men lyder som bilhorn." },
+      { text: "Arbejdsugen er igen seks dage lang." },
+    ],
+  },
+  {
+    options: [
+      { text: "Du mister en tilfældig knogle i din krop hvert 5. år." },
+      { text: "Hver gang nogen spiser en banan i nærheden af dig, falder du omgående i søvn indtil næste morgen." },
+      { text: "Din næste lønseddel vil fremover altid være 100 kr. lavere end den forrige." },
+    ],
+  },
+  {
+    options: [
+      { text: "Hvert barn, der fødes fremover, vil blive 10% lavere end sin mor, når de er voksne." },
+      { text: "Alle kan konstant se, hvor meget enhver person tjener og hvor meget, der står på deres konto." },
+      { text: "Danmark adopterer svensk som nationalsprog i stedet for dansk." },
+    ],
+  },
+  {
+    options: [
+      { text: "Der er ikke længere vand i bunden af toiletter." },
+      { text: "Der findes ikke længere en lydløsfunktion på mobiltelefoner." },
+      { text: "Der findes ikke længere hylder i køleskabe." },
+    ],
+  },
+  {
+    options: [
+      { text: "Køleskabe eksisterer ikke længere." },
+      { text: "Fantasy-genren eksisterer ikke længere." },
+      { text: "Lugtesansen eksisterer ikke længere." },
     ],
   },
 
