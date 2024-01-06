@@ -13,6 +13,7 @@ export default defineConfig({
   },
   build: {
     outDir: "../api/dist/api/src/public",
+    emptyOutDir: true,
   },
   server: {
     proxy: {
